@@ -35,8 +35,8 @@ def all_playlist_songs(playlist_id, repetitions):
     all_songs = merge_dicts(all_songs, more_songs)
   return all_songs
 
-def add_tracks_to_playlist(playlist_id, songs):
-  sp.user_playlist_add_tracks(user=sp.me()["id"], playlist_id=playlist_id, tracks=songs.values())
+def add_tracks_to_playlist(playlist_id, liked_songs):
+  sp.user_playlist_add_tracks(user=sp.me()["id"], playlist_id=playlist_id, tracks=liked_songs.values())
 
 def get_all_liked_songs():
   songs = {}
@@ -52,11 +52,12 @@ all_current_playlist_songs = all_playlist_songs(playlist_id, repetitions)
 # before
 pretty_print_songs(all_liked_songs)
 pretty_print_songs(all_current_playlist_songs)
+print("adding songs...")
 
-# add_tracks_to_playlist(playlist_id, songs)
-
-# # after
-# pretty_print_songs(all_playlist_songs(playlist_id, repetitions))
+# after
+time.sleep(10)
+add_tracks_to_playlist(playlist_id, all_liked_songs)
+pretty_print_songs(all_playlist_songs(playlist_id, repetitions))
 
 
 # for i in range(5):
