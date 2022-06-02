@@ -9,18 +9,6 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id="c7e5f0281614491c8e25f7
                                                redirect_uri="http://localhost:8888",
                                                scope="user-library-modify, user-read-playback-state, user-library-read, user-read-private, playlist-read-private, playlist-modify-private, playlist-modify-public, user-read-recently-played"))
 
-# results = sp.current_user_saved_tracks()
-# for idx, item in enumerate(results['items']):
-#     track = item['track']
-#     print(idx, track['artists'][0]['name'], " – ", track['name'])
-
-# print(json.dumps(sp.devices(), indent=4))
-
-# for i in range(6):
-#   res2 = sp.current_user_saved_tracks(offset=i*20)
-#   for item in res2["items"]:
-#     print(json.dumps(item["track"]["id"], indent=4))
-
 playlist_id = "71DDAcK9LAdJ9glbqnlInx"
 repetitions = 3
 
@@ -28,6 +16,10 @@ repetitions = 3
 def merge_dicts(dict1, dict2):
   res = {**dict1, **dict2}
   return res
+
+# pretty prints songs in playlist
+def pretty_print_songs(songs):
+  print(json.dumps(songs, indent=4))
 
 def get_all_songs_of_playlist_helper(playlist_id, ofs=0):
     results = sp.user_playlist_tracks(user=sp.me()["id"], playlist_id=playlist_id, offset=100*ofs, fields="items")
@@ -43,7 +35,29 @@ def all_playlist_songs(playlist_id, repetitions):
     all_songs = merge_dicts(all_songs, more_songs)
   return all_songs
 
-print(json.dumps(all_playlist_songs(playlist_id, repetitions), indent=4))
+def add_tracks_to_playlist(playlist_id, songs):
+  sp.user_playlist_add_tracks(user=sp.me()["id"], playlist_id=playlist_id, tracks=songs.values())
+
+def get_all_liked_songs():
+  songs = {}
+  for i in range(5):
+    results = sp.current_user_saved_tracks(limit=50, offset=50*i)
+    for item in results["items"]:
+      songs[item["track"]["name"]] = item["track"]["id"]
+  return songs
+
+all_liked_songs = get_all_liked_songs()
+all_current_playlist_songs = all_playlist_songs(playlist_id, repetitions)
+
+# before
+pretty_print_songs(all_liked_songs)
+pretty_print_songs(all_current_playlist_songs)
+
+# add_tracks_to_playlist(playlist_id, songs)
+
+# # after
+# pretty_print_songs(all_playlist_songs(playlist_id, repetitions))
+
 
 # for i in range(5):
 #   res2 = sp.current_user_saved_tracks(offset=i*20)
