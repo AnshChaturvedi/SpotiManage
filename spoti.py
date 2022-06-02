@@ -15,6 +15,21 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID, client_secre
 playlist_id = "71DDAcK9LAdJ9glbqnlInx"
 repetitions = 3
 
+def extract_playlist_id(spotify_url):
+  url = spotify_url
+  beg = "https://open.spotify.com/playlist/"
+  url = url.replace(beg, "")
+
+  index = 0
+  str_len = len(url)
+  for i in range(str_len):
+    if url[i] == "?":
+      index = i
+      break
+  
+  url = url[:index]
+  return url
+
 # merge two dictionaries together
 def merge_dicts(dict1, dict2):
   res = {**dict1, **dict2}
