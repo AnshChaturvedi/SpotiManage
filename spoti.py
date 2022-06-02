@@ -24,11 +24,10 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id="c7e5f0281614491c8e25f7
 playlist_id = "71DDAcK9LAdJ9glbqnlInx"
 repetitions = 3
 
-# Merge two dictionaries
-def merge_dicts(x, y):
-    z = x.copy()   # start with x's keys and values
-    z.update(y)    # modifies z with y's keys and values & returns None
-    return z
+# append two dictionaries together
+def merge_dicts(dict1, dict2):
+  res = {**dict1, **dict2}
+  return res
 
 def get_all_songs_of_playlist_helper(playlist_id, ofs=0):
     results = sp.user_playlist_tracks(user=sp.me()["id"], playlist_id=playlist_id, offset=100*ofs, fields="items")
@@ -41,7 +40,8 @@ def all_playlist_songs(playlist_id, repetitions):
   all_songs = {}
   for i in range(repetitions):
     more_songs = get_all_songs_of_playlist_helper(playlist_id, i)
-    merge_dicts(all_songs, more_songs)
+    all_songs = merge_dicts(all_songs, more_songs)
+  return all_songs
 
 print(json.dumps(all_playlist_songs(playlist_id, repetitions), indent=4))
 
