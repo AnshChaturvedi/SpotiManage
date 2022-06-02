@@ -24,19 +24,26 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id="c7e5f0281614491c8e25f7
 playlist_id = "71DDAcK9LAdJ9glbqnlInx"
 repetitions = 3
 
-def get_all_songs_of_playlist(playlist_id, ofs=0):
+# Merge two dictionaries
+def merge_dicts(x, y):
+    z = x.copy()   # start with x's keys and values
+    z.update(y)    # modifies z with y's keys and values & returns None
+    return z
+
+def get_all_songs_of_playlist_helper(playlist_id, ofs=0):
     results = sp.user_playlist_tracks(user=sp.me()["id"], playlist_id=playlist_id, offset=100*ofs, fields="items")
     songs = {}
     for item in results["items"]:
       songs[item["track"]["name"]] = item["track"]["id"]
     return songs
 
-
-def get_my_very_own(playlist_id, repetitions):
+def all_playlist_songs(playlist_id, repetitions):
+  all_songs = {}
   for i in range(repetitions):
-    get_all_songs_of_playlist(playlist_id, i)
+    more_songs = get_all_songs_of_playlist_helper(playlist_id, i)
+    merge_dicts(all_songs, more_songs)
 
-print(json.dumps(get_my_very_own(playlist_id, repetitions), indent=4))
+print(json.dumps(all_playlist_songs(playlist_id, repetitions), indent=4))
 
 # for i in range(5):
 #   res2 = sp.current_user_saved_tracks(offset=i*20)
