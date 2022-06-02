@@ -24,7 +24,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id="c7e5f0281614491c8e25f7
 playlist_id = "71DDAcK9LAdJ9glbqnlInx"
 repetitions = 3
 
-# append two dictionaries together
+# merge two dictionaries together
 def merge_dicts(dict1, dict2):
   res = {**dict1, **dict2}
   return res
