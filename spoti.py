@@ -5,6 +5,7 @@ import time
 from dotenv import load_dotenv
 import os
 
+# get environment variables
 load_dotenv()
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
@@ -15,20 +16,20 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=CLIENT_ID, client_secre
 playlist_id = "71DDAcK9LAdJ9glbqnlInx"
 repetitions = 3
 
+# no error checking at the moment, thats a work in progress
 def extract_playlist_id(spotify_url):
-  url = spotify_url
   beg = "https://open.spotify.com/playlist/"
-  url = url.replace(beg, "")
+  spotify_url = spotify_url.replace(beg, "")
 
   index = 0
-  str_len = len(url)
+  str_len = len(spotify_url)
   for i in range(str_len):
-    if url[i] == "?":
+    if spotify_url[i] == "?":
       index = i
       break
   
-  url = url[:index]
-  return url
+  spotify_url = spotify_url[:index]
+  return spotify_url
 
 # merge two dictionaries together
 def merge_dicts(dict1, dict2):
