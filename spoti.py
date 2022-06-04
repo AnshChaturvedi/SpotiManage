@@ -39,7 +39,9 @@ def merge_dicts(dict1, dict2):
 # pretty prints songs in playlist
 def pretty_print(songs):
   print(json.dumps(songs, indent=4))
-  
+
+
+# get all songs of playlist
 def all_playlist_songs(playlist_id, repetitions):
   all_songs = {}
   for i in range(repetitions):
