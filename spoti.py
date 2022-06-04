@@ -37,7 +37,7 @@ def merge_dicts(dict1, dict2):
   return res
 
 # pretty prints songs in playlist
-def pretty_print_songs(songs):
+def pretty_print(songs):
   print(json.dumps(songs, indent=4))
 
 def get_all_songs_of_playlist_helper(playlist_id, ofs=0):
@@ -69,14 +69,14 @@ all_liked_songs = get_all_liked_songs()
 all_current_playlist_songs = all_playlist_songs(playlist_id, repetitions)
 
 # before
-pretty_print_songs(all_liked_songs)
-pretty_print_songs(all_current_playlist_songs)
+pretty_print(all_liked_songs)
+pretty_print(all_current_playlist_songs)
 print("adding songs...")
 
 # after
 time.sleep(10)
 add_tracks_to_playlist(playlist_id, all_liked_songs)
-pretty_print_songs(all_playlist_songs(playlist_id, repetitions))
+pretty_print(all_playlist_songs(playlist_id, repetitions))
 
 
 # for i in range(5):
