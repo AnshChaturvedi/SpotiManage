@@ -39,6 +39,13 @@ def merge_dicts(dict1, dict2):
 # pretty prints songs in playlist
 def pretty_print(songs):
   print(json.dumps(songs, indent=4))
+  
+def all_playlist_songs(playlist_id, repetitions):
+  all_songs = {}
+  for i in range(repetitions):
+    more_songs = get_all_songs_of_playlist_helper(playlist_id, i)
+    all_songs = merge_dicts(all_songs, more_songs)
+  return all_songs
 
 def get_all_songs_of_playlist_helper(playlist_id, ofs=0):
     results = sp.user_playlist_tracks(user=sp.me()["id"], playlist_id=playlist_id, offset=100*ofs, fields="items")
@@ -47,12 +54,6 @@ def get_all_songs_of_playlist_helper(playlist_id, ofs=0):
       songs[item["track"]["name"]] = item["track"]["id"]
     return songs
 
-def all_playlist_songs(playlist_id, repetitions):
-  all_songs = {}
-  for i in range(repetitions):
-    more_songs = get_all_songs_of_playlist_helper(playlist_id, i)
-    all_songs = merge_dicts(all_songs, more_songs)
-  return all_songs
 
 def add_tracks_to_playlist(playlist_id, liked_songs):
   sp.user_playlist_add_tracks(user=sp.me()["id"], playlist_id=playlist_id, tracks=liked_songs.values())
