@@ -41,8 +41,6 @@ def pretty_print(songs):
   print(json.dumps(songs, indent=4))
 
 
-
-
 # creates an iterable generator to split songs into chunks
 def chunks(data, SIZE=10000):
   it = iter(data)
