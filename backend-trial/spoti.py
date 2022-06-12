@@ -121,12 +121,8 @@ def another_test():
   all_from_songs = break_songs_into_chunks(all_playlist_songs(from_id, repetitions), 100)
   all_to_songs = all_playlist_songs(to_id, repetitions)
 
-  # pretty_print(all_from_songs)
-  # print("----------------------------------------------------------------------------")
-  # pretty_print(all_to_songs)
-
   add_tracks_to_playlist(to_id, all_from_songs)
   end = timer()
   print("Done, took " + str(end - start) + " seconds")
 
-another_test()
+# another_test()
